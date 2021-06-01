@@ -1,119 +1,168 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-col align-self="end" offset-md="10" cols="2">
-        <b-modal id="modal-1" title="BootstrapVue">
-          <p class="my-4">Hello from modal!</p>
-        </b-modal>
-        <b-input-group>
-          <!-- <b-input-group-prepend>
-            <b-icon-funnel v-b-modal.modal-1 font-scale="2.2" class="pt-1" />
-          </b-input-group-prepend> -->
-
-          <b-form-select v-model="regionSelected">
-            <!-- This slot appears above the options from 'options' prop -->
-            <template #first>
-              <b-form-select-option :value="null" disabled
-                >-- Please select an option --</b-form-select-option
+  <div class="list">
+    <b-container fluid>
+      <b-row>
+        <b-col align-self="end" offset-md="10" cols="2">
+          <b-input-group>
+            <b-input-group-prepend>
+              <b-icon-funnel v-b-modal.modal-1 font-scale="2.2" class="pt-1" />
+            </b-input-group-prepend>
+            <b-form-select v-model="selectedRegion">
+              <!-- This slot appears above the options from 'options' prop -->
+              <template #first>
+                <b-form-select-option :value="null" disabled
+                  >-- Please select an option --</b-form-select-option
+                >
+              </template>
+              <b-form-select-option
+                :value="value.key"
+                v-for="(value, index) in dropdownItems"
+                :key="index"
+                >{{ value.text }}</b-form-select-option
               >
-            </template>
-            <b-form-select-option
-              :value="value.key"
-              v-for="(value, index) in dropdownItems"
-              :key="index"
-              >{{ value.text }}</b-form-select-option
-            >
-          </b-form-select>
-        </b-input-group>
-      </b-col>
-    </b-row>
-
-    <b-tabs content-class="mt-3">
-      <b-tab title="List View" active>
-        <b-row align-h="center" v-if="regionSelected.length < 1">
-          <b-col align-self="center">
-            <h2 style="color: #660404; font-style: italic">Please select your region...</h2>
-          </b-col>
-        </b-row>
-        <b-row v-else>
-          <div class="col-lg">
-            <div>
-              <b-table
-              id="my-table"
-                responsive
-                striped
-                hover
-                show-empty
-                :busy="isBusy"
-                :fields="fields"
-                :items="list"
-              >
-                <template #cell(no)="data">
-                  {{ data.index + 1 }}
-                </template>
-                <template #cell(name)="data" class="text-left text-weight-bold">
-                  <h6 class="text-left">
-                    <img v-if="data.item.logo === undefined" src="@/assets/image.png" alt="Default Logo" height="80" class="mr-3">
-                    <img
-                    v-else
-                      :src="data.item.logo"
-                      height="80"
-                      class="rounded-circle mr-3"
-                      alt="Event logo"
-                    />
-                    {{ data.item.name }}
-                  </h6>
-                </template>
-                <template #cell(organizer)="data">
-                  <p>{{ data.value }}</p>
-                </template>
-                <template #cell(date)="data">
-                  {{ data.item.date }} <br />
-                  {{ data.item.address }}, {{ data.item.city }}
-                </template>
-                <template #cell(type)="data">
-                  {{ data.item.type }} <br />
-                </template>
-                <template #table-busy>
-                  <div class="text-center text-danger my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>Loading...</strong>
-                  </div>
-                </template>
-              </b-table>
+            </b-form-select>
+          </b-input-group>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container>
+      <b-row>
+        <b-col>
+          <multiselect
+            :multiple="true"
+            v-model="typeSelected"
+            :options="options"
+          >
+          </multiselect>
+        </b-col>
+        <b-col>
+          <b-form-datepicker
+            id="example-datepicker"
+            v-model="dateFrom"
+            class="mb-2"
+          ></b-form-datepicker>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container fluid>
+      <b-tabs content-class="mt-3">
+        <b-tab title="List View" active>
+          <b-row align-h="center" v-if="selectedRegion.length < 1">
+            <b-col align-self="center">
+              <h2 style="color: #660404; font-style: italic">
+                Please select your region...
+              </h2>
+            </b-col>
+          </b-row>
+          <b-row v-else>
+            <div class="col-lg">
+              <div>
+                <b-table
+                  id="my-table"
+                  responsive
+                  striped
+                  hover
+                  show-empty
+                  :busy="isBusy"
+                  :fields="fields"
+                  :items="list"
+                  :current-page="currentPage"
+                  :per-page="perPage"
+                >
+                  <template #cell(no)="data">
+                    {{ data.index + 1 }}
+                  </template>
+                  <template
+                    #cell(name)="data"
+                    class="text-left text-weight-bold"
+                  >
+                    <h6 class="text-left">
+                      <img
+                        v-if="data.item.logo === undefined"
+                        src="@/assets/image.png"
+                        alt="Default Logo"
+                        height="80"
+                        class="mr-3"
+                      />
+                      <img
+                        v-else
+                        :src="data.item.logo"
+                        height="80"
+                        class="rounded-circle mr-3"
+                        alt="Event logo"
+                      />
+                      {{ data.item.name }}
+                    </h6>
+                  </template>
+                  <template #cell(organizer)="data">
+                    <p>{{ data.value }}</p>
+                  </template>
+                  <template #cell(date)="data">
+                    {{ data.item.date }} <br />
+                    {{ data.item.address }}, {{ data.item.city }}
+                  </template>
+                  <template #cell(type)="data">
+                    {{ data.item.type }} <br />
+                  </template>
+                  <template #table-busy>
+                    <div class="text-center text-danger my-2">
+                      <b-spinner class="align-middle"></b-spinner>
+                      <strong> Loading...</strong>
+                    </div>
+                  </template>
+                </b-table>
+                <b-col sm="12" md="4" offset-md="4" class="my-1">
+                  <b-pagination
+                    v-model="currentPage"
+                    :total-rows="totalRows"
+                    :per-page="perPage"
+                    align="fill"
+                    size="sm"
+                    class="my-0"
+                  ></b-pagination>
+                </b-col>
+              </div>
             </div>
-          </div>
-        </b-row>
-      </b-tab>
-      <b-tab title="Map View" lazy>
-        <google-map-view :events="list" />
-      </b-tab>
-    </b-tabs>
-  </b-container>
+          </b-row>
+        </b-tab>
+        <b-tab title="Map View" lazy :disabled="list.length == []">
+          <google-map-view :events="list" />
+        </b-tab>
+      </b-tabs>
+    </b-container>
+  </div>
 </template>
 
 <script>
 import axios from '@/axios'
 import GoogleMapView from '../components/GoogleMap.vue'
+import Multiselect from 'vue-multiselect'
 
 export default {
   data () {
     return {
+      totalRows: 1,
+      currentPage: 1,
+      perPage: 25,
       list: [],
       fields: ['no', 'name', 'organizer', 'date', 'type'],
       dropdownItems: [],
       isBusy: false,
-      regionSelected: '',
-      isRegionSelected: false
+      selectedRegion: '',
+      isRegionSelected: false,
+      typeSelected: null,
+      options: ['Festival', 'Milonga', 'Practica', 'Class', 'Workshop'],
+      dateFrom: ''
     }
   },
   components: {
-    GoogleMapView
+    GoogleMapView,
+    Multiselect
   },
   computed: {},
   watch: {
-    regionSelected: function (newValue, oldValue) {
-      this.regionSelected = newValue
+    selectedRegion: function (newValue, oldValue) {
+      this.selectedRegion = newValue
       this.getEvents()
     }
   },
@@ -139,8 +188,9 @@ export default {
     },
     getEvents () {
       this.isBusy = true
+      this.list = []
       axios
-        .get(`events/ukata/GBR/${this.regionSelected}/1`)
+        .get(`events/ukata/GBR/${this.selectedRegion}/1`)
         .then((response) => {
           const dateFormatOptions = {
             month: '2-digit',
@@ -176,20 +226,32 @@ export default {
               logo: element.logoUrl,
               name: element.name,
               organizer: element.associationName,
-              from: `${new Date(timestampStarted).toLocaleString('en-US', dateFormatOptions)} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              from: `${new Date(timestampStarted).toLocaleString(
+                'en-US',
+                dateFormatOptions
+              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
-              to: `${new Date(timestampEnded).toLocaleString('en-US', dateFormatOptions)} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              to: `${new Date(timestampEnded).toLocaleString(
+                'en-US',
+                dateFormatOptions
+              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
-              date: `From: ${new Date(timestampStarted).toLocaleString('en-US', dateFormatOptions)} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              date: `From: ${new Date(timestampStarted).toLocaleString(
+                'en-US',
+                dateFormatOptions
+              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric'
-              })} - To: ${new Date(timestampEnded).toLocaleString('en-US', dateFormatOptions)} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              })} - To: ${new Date(timestampEnded).toLocaleString(
+                'en-US',
+                dateFormatOptions
+              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
@@ -202,11 +264,12 @@ export default {
         })
         .catch((error) => {
           this.list = []
-          console.log(error)
+          console.error(error)
         })
         .finally(() => {
           this.$root.$emit('bv::refresh::table', 'my-table')
           this.isBusy = false
+          this.totalRows = this.list.length
         })
     }
   },
@@ -227,3 +290,5 @@ td > h6 {
   font-size: 1.3em;
 }
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
