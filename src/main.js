@@ -7,10 +7,13 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import * as VueGoogleMaps from 'vue2-google-maps'
-import { BootstrapVue, BIconFunnel } from 'bootstrap-vue'
+import { BootstrapVue, BIconFunnel, BIconX } from 'bootstrap-vue'
+import axios from '@/axios'
 
 Vue.use(BootstrapVue)
 Vue.component('BIconFunnel', BIconFunnel)
+Vue.component('BIconX', BIconX)
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 
