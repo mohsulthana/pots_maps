@@ -53,11 +53,13 @@ export default {
   },
   watch: {
     events: function (newVal, oldVal) {
+      this.markers = []
       this.populateMap()
     }
   },
   mounted () {
     this.$refs.mapRef.$mapPromise.then((map) => {
+      this.markers = []
       this.events.forEach((element) => {
         if (element.location !== undefined) {
           map.panTo({ lat: element.location.latitude, lng: element.location.longitude })
@@ -84,6 +86,7 @@ export default {
   methods: {
     populateMap () {
       this.$refs.mapRef.$mapPromise.then((map) => {
+        this.markers = []
         this.events.forEach((element) => {
           if (element.location !== undefined) {
             map.panTo({ lat: element.location.latitude, lng: element.location.longitude })
