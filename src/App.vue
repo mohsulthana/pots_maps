@@ -77,7 +77,6 @@ export default {
       axios
         .post(`events/filter/local/GBR/${evt.selectedRegion}`, body)
         .then((response) => {
-          console.log(response)
           const dateFormatOptions = {
             month: '2-digit',
             day: '2-digit'
@@ -145,7 +144,8 @@ export default {
               address: `${element.address}`,
               type: element.type,
               city: element.city,
-              postCode: element.postCode
+              postCode: element.postCode,
+              location: element.location
             })
           })
         })
