@@ -75,7 +75,7 @@ export default {
       }
 
       axios
-        .post(`events/filter/local/GBR/${evt.selectedRegion}`, body)
+        .post(`events/filter/ukata/GBR/${evt.selectedRegion}`, body)
         .then((response) => {
           const dateFormatOptions = {
             month: '2-digit',
