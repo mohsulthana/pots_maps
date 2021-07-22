@@ -2,7 +2,7 @@
   <div id="selection">
     <b-container fluid class="my-5">
       <b-row>
-        <b-col cols="2">
+        <b-col lg="2" sm="12" class="my-2">
           <b-input-group>
             <b-form-select v-model="selectedRegion">
               <template #first>
@@ -19,7 +19,7 @@
             </b-form-select>
           </b-input-group>
         </b-col>
-        <b-col cols="3" offset-lg="1">
+        <b-col lg="3" offset-lg="1" sm="12" class="my-2">
           <multiselect
             :multiple="true"
             placeholder="Select Type"
@@ -28,7 +28,7 @@
           >
           </multiselect>
         </b-col>
-        <b-col cols="3">
+        <b-col lg="3" sm="12" class="my-2">
           <b-form-datepicker
             reset-button
             :min="min"
@@ -37,7 +37,7 @@
             class="mb-2"
           ></b-form-datepicker>
         </b-col>
-        <b-col cols="2">
+        <b-col lg="2" sm="12" class="my-2">
           <b-input-group>
             <b-form-input
               v-model="cityFilter"
@@ -55,24 +55,57 @@
         </b-col>
         <b-col>
           <b-button
+            class="d-none d-lg-block"
             :disabled="selectedRegion.length < 1"
-            @click="$emit('getEventsFilter', {cityFilter, typeSelectedFilter, dateFromFilter, selectedRegion})"
+            @click="
+              $emit('getEventsFilter', {
+                cityFilter,
+                typeSelectedFilter,
+                dateFromFilter,
+                selectedRegion,
+              })
+            "
+            variant="danger"
+            >Filter</b-button
+          >
+          <b-button
+            style="width: 100%"
+            class="d-lg-none"
+            :disabled="selectedRegion.length < 1"
+            @click="
+              $emit('getEventsFilter', {
+                cityFilter,
+                typeSelectedFilter,
+                dateFromFilter,
+                selectedRegion,
+              })
+            "
             variant="danger"
             >Filter</b-button
           >
         </b-col>
       </b-row>
       <b-row align-h="end">
-        <b-col>
+        <b-col class="my-2">
           <b-button
+            class="d-lg-none"
             variant="outline-danger"
             @click="clearFilter()"
             v-if="filtered"
-            style="float: right;"
-            >
-            <b-icon-x />Clear filter
-            </b-button
+            style="float: right; width: 100%"
           >
+            <b-icon-x />Clear filter
+          </b-button>
+
+          <b-button
+            class="d-none d-lg-block"
+            variant="outline-danger"
+            @click="clearFilter()"
+            v-if="filtered"
+            style="float: right"
+          >
+            <b-icon-x />Clear filter
+          </b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -124,19 +157,22 @@ export default {
       this.cityFilter = null
     },
     getDropdownItems () {
-      axios.get('events/regions/GBR').then((response) => {
-        for (const key in response.data.results) {
-          if (Object.hasOwnProperty.call(response.data.results, key)) {
-            const element = response.data.results[key]
-            this.dropdownItems.push({
-              key: key,
-              text: element
-            })
+      axios
+        .get('events/regions/GBR')
+        .then((response) => {
+          for (const key in response.data.results) {
+            if (Object.hasOwnProperty.call(response.data.results, key)) {
+              const element = response.data.results[key]
+              this.dropdownItems.push({
+                key: key,
+                text: element
+              })
+            }
           }
-        }
-      }).finally(() => {
-        this.tabActive = true
-      })
+        })
+        .finally(() => {
+          this.tabActive = true
+        })
     }
   },
   components: {
