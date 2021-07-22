@@ -74,7 +74,7 @@ export default {
       totalRows: 1,
       currentPage: 1,
       perPage: 25,
-      fields: ['name', 'organizer', 'date', 'address', 'type'],
+      fields: ['name', 'organizer', { key: 'date', label: 'Date', tdClass: 'dateColumn' }, 'address', 'type'],
       isBusy: false
     }
   },
@@ -90,6 +90,12 @@ export default {
 </script>
 
 <style lang="scss">
+@media (max-width: 576px) {
+  .dateColumn {
+    min-width: 231px !important;
+  }
+}
+
 td > h6 {
   font-weight: 700;
   font-size: 1.3em;
