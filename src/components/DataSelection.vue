@@ -133,11 +133,14 @@ export default {
       dateFromFilter: null,
       cityFilter: null,
       options: [
-        'FESTIVAL',
         'MILONGA',
         'PRACTICA',
         'CLASS',
         'WORKSHOP',
+        'PRIVATE',
+        'FESTIVAL',
+        'RETREAT',
+        'VACATION',
         'MARATHON'
       ]
     }
