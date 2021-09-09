@@ -39,7 +39,7 @@ export default {
         // optional: offset infowindow so it visually sits nicely on top of our marker
         pixelOffset: {
           width: 0,
-          height: -15
+          height: 0
         }
       },
       currentMidx: null,
@@ -186,5 +186,9 @@ export default {
 }
 .card {
   border: none !important;
+}
+.gm-style-iw-t {
+  right: 0px;
+  bottom: 55px !important;
 }
 </style>
