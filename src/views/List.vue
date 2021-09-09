@@ -24,6 +24,7 @@
               v-else
               :src="data.item.logo"
               height="80"
+              width="80"
               class="rounded-circle mr-3"
               alt="Event logo"
             />
@@ -34,8 +35,9 @@
           <p>{{ data.value }}</p>
         </template>
         <template #cell(date)="data">
-          From: {{ data.item.from }} <br />
-          To: {{ data.item.to }}
+          {{ data.item.from }} <br />
+          to <br />
+          {{ data.item.to }}
         </template>
         <template #cell(address)="data">
           {{ data.item.address }} <br />
