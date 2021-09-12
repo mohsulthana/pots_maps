@@ -3,9 +3,9 @@
     <GmapMap
       ref="mapRef"
       :center="center"
-      :zoom="12"
+      :zoom="15"
       id="mapId"
-      style="width: 100%; height: 600px"
+      style="width: 95%; height: 500px"
     >
       <gmap-marker
         :key="index"
@@ -135,7 +135,7 @@ export default {
         <div class="card">
           <div class="card-body">
             <div style="float: left;">
-              ${item.logo === undefined ? `<img src="${defaultImage}" alt="Default Logo" height="80" class="mr-3">` : `<img src=${item.logo} height="80" class="rounded-circle">`}
+              ${item.logo === undefined ? `<img src="${defaultImage}" alt="Default Logo" height="80" width="80" class="mr-3">` : `<img src=${item.logo} height="80" width="80" class="rounded-circle">`}
             </div>
             <div style="float: left;">
                 <h4>${item.name}</h4>
