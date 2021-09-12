@@ -3,9 +3,9 @@
     <GmapMap
       ref="mapRef"
       :center="center"
-      :zoom="15"
+      :zoom="11"
       id="mapId"
-      style="width: 95%; height: 500px"
+      style="width: 100%; height: 500px"
     >
       <gmap-marker
         :key="index"
