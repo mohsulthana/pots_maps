@@ -82,7 +82,7 @@ export default {
       sortedRegion: [
         { key: 'ENG_E', text: 'England - East' },
         { key: 'ENG_EML', text: 'England - East Midlands' },
-        { key: 'ENG_GLN', text: 'England - Great London' },
+        { key: 'ENG_GLN', text: 'England - Greater London' },
         { key: 'ENG_NE', text: 'England - North East' },
         { key: 'ENG_NW', text: 'England - North West' },
         { key: 'ENG_SE', text: 'England - South East' },
@@ -92,7 +92,6 @@ export default {
         { key: 'N_IRE', text: 'Northern Ireland' },
         { key: 'SCO', text: 'Scotland' },
         { key: 'WALES', text: 'Wales' },
-        { key: 'ENG_WML', text: 'England - West Midlands' },
         { key: 'ONLINE', text: 'UK - Online' }
       ]
     }
@@ -121,16 +120,8 @@ export default {
       const body = {
         city: evt.cityFilter,
         from: new Date(evt.dateFromFilter).getTime() / 1000,
-        types: ['MILONGA']
+        types: evt.typeSelectedFilter
       }
-
-      /**
-       * https://web.api.pointsoftango.app/events/filter/ukata/GBR/ENG_GLN
-       * Body:
-       * {
-       * "types": ["MILONGA"]
-       * }
-       */
 
       axios
         .post(`events/filter/ukata/GBR/${evt}`, body)
