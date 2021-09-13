@@ -1,25 +1,8 @@
 <template>
   <div id="selection">
-    <b-container fluid class="my-5">
-      <b-row>
+    <b-container fluid>
+      <b-row align-h="start">
         <b-col lg="2" sm="12" class="my-2">
-          <b-input-group>
-            <b-form-select v-model="selectedRegion">
-              <template #first>
-                <b-form-select-option value="" disabled
-                  >Select region</b-form-select-option
-                >
-              </template>
-              <b-form-select-option
-                :value="value.key"
-                v-for="(value, index) in sortedRegion"
-                :key="index"
-                >{{ value.text }}</b-form-select-option
-              >
-            </b-form-select>
-          </b-input-group>
-        </b-col>
-        <b-col lg="3" offset-lg="1" sm="12" class="my-2">
           <multiselect
             :multiple="true"
             placeholder="Select Type"
@@ -53,7 +36,7 @@
             </b-input-group-append>
           </b-input-group>
         </b-col>
-        <b-col>
+        <b-col lg="2" sm="12" class="my-2">
           <b-button
             class="d-none d-lg-block"
             :disabled="selectedRegion.length < 1"
@@ -84,15 +67,12 @@
             >Filter</b-button
           >
         </b-col>
-      </b-row>
-      <b-row align-h="end">
-        <b-col class="my-2">
+        <b-col lg="2" sm="12" class="my-2">
           <b-button
             class="d-lg-none"
             variant="outline-danger"
             @click="clearFilter()"
             v-if="filtered"
-            style="float: right; width: 100%"
           >
             <b-icon-x />Clear filter
           </b-button>
@@ -208,9 +188,6 @@ export default {
         this.$emit('getEventsFilter')
       }
     }
-  },
-  created () {
-    this.getDropdownItems()
   }
 }
 </script>

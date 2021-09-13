@@ -5,9 +5,28 @@
       <b-navbar-brand href="https://pointsoftango.com" target="_blank">
         <img src="@/assets/Logo-pot.png" alt="Pots Logo" height="70" />
       </b-navbar-brand>
-      <b-navbar-nav class="ml-auto">
-        <img src="@/assets/UKATA.png" alt="Tango Association" height="70" />
-      </b-navbar-nav>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-input-group>
+            <b-form-select v-model="selectedRegion">
+              <template #first>
+                <b-form-select-option value="" disabled
+                  >Select region</b-form-select-option
+                >
+              </template>
+              <b-form-select-option
+                :value="value.key"
+                v-for="(value, index) in sortedRegion"
+                :key="index"
+                >{{ value.text }}</b-form-select-option
+              >
+            </b-form-select>
+          </b-input-group>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <img src="@/assets/UKATA.png" alt="Tango Association" height="70" />
+        </b-navbar-nav>
+      </b-collapse>
     </b-navbar>
     <div id="body">
       <data-selection
@@ -17,7 +36,10 @@
         :filtered="filtered"
       />
       <b-container fluid>
-        <h2 style="color: #660404; font-style: italic" v-if="list.length == [] && !filtered">
+        <h2
+          style="color: #660404; font-style: italic"
+          v-if="list.length == [] && !filtered"
+        >
           Please select your region...
         </h2>
         <b-tabs>
@@ -45,17 +67,45 @@ import GoogleMapView from '@/components/GoogleMap.vue'
 
 export default {
   data () {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     return {
+      min: today,
       isLoading: false,
       list: [],
       tabActive: false,
-      filtered: false
+      filtered: false,
+      selectedRegion: '',
+      cityFilter: null,
+      typeSelectedFilter: null,
+      dateFromFilter: null,
+      sortedRegion: [
+        { key: 'ENG_E', text: 'England - East' },
+        { key: 'ENG_EML', text: 'England - East Midlands' },
+        { key: 'ENG_GLN', text: 'England - Great London' },
+        { key: 'ENG_NE', text: 'England - North East' },
+        { key: 'ENG_NW', text: 'England - North West' },
+        { key: 'ENG_SE', text: 'England - South East' },
+        { key: 'ENG_SW', text: 'England - South West' },
+        { key: 'ENG_WML', text: 'England - West Midlands' },
+        { key: 'ENG_YH', text: 'England - Yorkshire and the Humber' },
+        { key: 'N_IRE', text: 'Northern Ireland' },
+        { key: 'SCO', text: 'Scotland' },
+        { key: 'WALES', text: 'Wales' },
+        { key: 'ENG_WML', text: 'England - West Midlands' },
+        { key: 'ONLINE', text: 'UK - Online' }
+      ]
     }
   },
   components: {
     List,
     DataSelection,
     GoogleMapView
+  },
+  watch: {
+    selectedRegion: function (newValue, oldValue) {
+      this.getEventsFilter(newValue)
+    }
   },
   methods: {
     removeFilterState (bool) {
@@ -71,11 +121,19 @@ export default {
       const body = {
         city: evt.cityFilter,
         from: new Date(evt.dateFromFilter).getTime() / 1000,
-        types: evt.typeSelectedFilter
+        types: ['MILONGA']
       }
 
+      /**
+       * https://web.api.pointsoftango.app/events/filter/ukata/GBR/ENG_GLN
+       * Body:
+       * {
+       * "types": ["MILONGA"]
+       * }
+       */
+
       axios
-        .post(`events/filter/ukata/GBR/${evt.selectedRegion}`, body)
+        .post(`events/filter/ukata/GBR/${evt}`, body)
         .then((response) => {
           const dateFormatOptions = {
             month: '2-digit',
