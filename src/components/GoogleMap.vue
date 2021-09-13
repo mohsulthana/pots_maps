@@ -12,12 +12,14 @@
         v-for="(m, index) in markers"
         :position="m"
         :clickable="true"
+        ref="marker"
         @click="toggleInfoWindow(m, index)"
       ></gmap-marker>
       <gmap-info-window
         :options="infoOptions"
         :position="infoWindowPos"
         :opened="infoWindowOpen"
+        ref="infoWindow"
         @closeclick="infoWindowOpen = false"
       />
     </GmapMap>
@@ -34,9 +36,7 @@ export default {
     return {
       organizer: '',
       infoOptions: {
-        // content: "<div style='float:left'><img src='http://i.stack.imgur.com/g672i.png'></div><div style='float:right; padding: 10px;'><b>Title</b><br/>123 Address<br/> City,Country</div>",
         content: '',
-        // optional: offset infowindow so it visually sits nicely on top of our marker
         pixelOffset: {
           width: 0,
           height: 0
@@ -62,7 +62,10 @@ export default {
       this.markers = []
       this.events.forEach((element) => {
         if (element.location !== undefined) {
-          map.panTo({ lat: element.location.latitude, lng: element.location.longitude })
+          map.panTo({
+            lat: element.location.latitude,
+            lng: element.location.longitude
+          })
           this.center = {
             lat: element.location.latitude,
             lng: element.location.longitude
@@ -89,7 +92,10 @@ export default {
         this.markers = []
         this.events.forEach((element) => {
           if (element.location !== undefined) {
-            map.panTo({ lat: element.location.latitude, lng: element.location.longitude })
+            map.panTo({
+              lat: element.location.latitude,
+              lng: element.location.longitude
+            })
             this.center = {
               lat: element.location.latitude,
               lng: element.location.longitude
@@ -107,32 +113,13 @@ export default {
               city: element.city
             })
           }
-        // geocoder.geocode({ address: element.address }, (results, status) => {
-        //   if (status === google.maps.GeocoderStatus.OK) {
-        //     const latitude = results[0].geometry.location.lat()
-        //     const longitude = results[0].geometry.location.lng()
-        //     // insert property to marker
-        //     this.markers.push({
-        //       lat: latitude,
-        //       lng: longitude,
-        //       name: element.name,
-        //       type: element.type,
-        //       logo: element.logo,
-        //       organizer: element.organizer,
-        //       from: element.from,
-        //       to: element.to,
-        //       address: element.address,
-        //       city: element.city
-        //     })
-        //   }
-        // })
         })
       })
     },
     toggleInfoWindow (item, index) {
       const defaultImage = require('../assets/image.png')
       this.infoOptions.content = `
-        <div class="card">
+        <div class="card border-0 pr-4">
           <div class="card-body">
             <div style="float: left;">
               ${item.logo === undefined ? `<img src="${defaultImage}" alt="Default Logo" height="80" class="mr-3">` : `<img src=${item.logo} height="80" class="rounded-circle">`}
