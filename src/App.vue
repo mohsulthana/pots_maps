@@ -103,7 +103,7 @@ export default {
   },
   watch: {
     selectedRegion: function (newValue, oldValue) {
-      this.getEventsFilter(newValue)
+      this.getEvents(newValue)
     }
   },
   methods: {

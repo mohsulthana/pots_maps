@@ -2,7 +2,7 @@
   <div id="selection">
     <b-container fluid>
       <b-row align-h="start">
-        <b-col lg="2" sm="12" class="my-2">
+        <b-col lg="3" sm="12" class="my-2">
           <multiselect
             :multiple="true"
             placeholder="Select Type"
