@@ -39,13 +39,12 @@
         <b-col lg="2" sm="12" class="my-2">
           <b-button
             class="d-none d-lg-block"
-            :disabled="selectedRegion.length < 1"
+            :disabled="!isRegionSelected"
             @click="
               $emit('getEventsFilter', {
                 cityFilter,
                 typeSelectedFilter,
                 dateFromFilter,
-                selectedRegion,
               })
             "
             variant="danger"
@@ -54,13 +53,12 @@
           <b-button
             style="width: 100%"
             class="d-lg-none"
-            :disabled="selectedRegion.length < 1"
+            :disabled="!isRegionSelected"
             @click="
               $emit('getEventsFilter', {
                 cityFilter,
                 typeSelectedFilter,
                 dateFromFilter,
-                selectedRegion,
               })
             "
             variant="danger"
@@ -94,21 +92,18 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
-import axios from '@/axios'
 
 export default {
   props: {
-    filtered: Boolean
+    filtered: Boolean,
+    isRegionSelected: Boolean
   },
   data () {
     const now = new Date()
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     return {
       min: today,
-      selectedRegion: '',
       isBusy: false,
-      dropdownItems: [],
-      isRegionSelected: false,
       typeSelectedFilter: null,
       dateFromFilter: null,
       cityFilter: null,
@@ -133,61 +128,15 @@ export default {
       this.cityFilter = null
       this.dateFromFilter = null
       this.typeSelectedFilter = null
-      this.$emit('getEvents', this.selectedRegion)
+      this.$emit('getEvents')
       this.$emit('removeFilterState', false)
     },
     clearCityFilter () {
       this.cityFilter = null
-    },
-    getDropdownItems () {
-      axios
-        .get('events/regions/GBR')
-        .then((response) => {
-          for (const key in response.data.results) {
-            if (Object.hasOwnProperty.call(response.data.results, key)) {
-              const element = response.data.results[key]
-              this.dropdownItems.push({
-                key: key,
-                text: element
-              })
-            }
-          }
-        })
-        .finally(() => {
-          this.tabActive = true
-        })
     }
   },
   components: {
     Multiselect
-  },
-  computed: {
-    sortedRegion () {
-      const region = Object.assign([], this.dropdownItems)
-
-      return region.sort(function (a, b) {
-        const x = a.text.toLowerCase()
-        const y = b.text.toLowerCase()
-        return x < y ? -1 : x > y ? 1 : 0
-      })
-    }
-  },
-  watch: {
-    selectedRegion: function (newValue, oldValue) {
-      this.selectedRegion = newValue
-      this.cityFilter = null
-      this.dateFromFilter = null
-      this.typeSelectedFilter = null
-      if (
-        this.cityFilter === null ||
-        this.dateFromFilter === undefined ||
-        this.typeSelectedFilter === null
-      ) {
-        this.$emit('getEvents', this.selectedRegion)
-      } else {
-        this.$emit('getEventsFilter')
-      }
-    }
   }
 }
 </script>

@@ -34,6 +34,7 @@
         @getEventsFilter="getEventsFilter"
         @removeFilterState="removeFilterState"
         :filtered="filtered"
+        :isRegionSelected="selectedRegion.length > 0 ? true : false"
       />
       <b-container fluid>
         <h2
@@ -124,7 +125,7 @@ export default {
       }
 
       axios
-        .post(`events/filter/ukata/GBR/${evt}`, body)
+        .post(`events/filter/ukata/GBR/${this.selectedRegion}`, body)
         .then((response) => {
           const dateFormatOptions = {
             month: '2-digit',
@@ -209,12 +210,12 @@ export default {
           this.filtered = true
         })
     },
-    getEvents (region) {
+    getEvents () {
       this.isBusy = true
       this.list = []
 
       axios
-        .get(`events/ukata/GBR/${region}/1`)
+        .get(`events/ukata/GBR/${this.selectedRegion}/1`)
         .then((response) => {
           console.log(response)
           const dateFormatOptions = {
