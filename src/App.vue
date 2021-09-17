@@ -76,7 +76,7 @@ export default {
       list: [],
       tabActive: false,
       filtered: false,
-      selectedRegion: '',
+      selectedRegion: 'ENG_GLN',
       cityFilter: null,
       typeSelectedFilter: null,
       dateFromFilter: null,
@@ -162,31 +162,31 @@ export default {
               name: element.name,
               organizer: element.associationName,
               from: `${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric'
               })} - To: ${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
@@ -195,7 +195,8 @@ export default {
               type: element.type,
               city: element.city,
               postCode: element.postCode,
-              location: element.location
+              location: element.location,
+              link: element.link
             })
           })
         })
@@ -217,7 +218,6 @@ export default {
       axios
         .get(`events/ukata/GBR/${this.selectedRegion}/1`)
         .then((response) => {
-          console.log(response)
           const dateFormatOptions = {
             month: '2-digit',
             day: '2-digit'
@@ -253,31 +253,31 @@ export default {
               name: element.name,
               organizer: element.associationName,
               from: `${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric'
               })} - To: ${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
@@ -286,7 +286,8 @@ export default {
               type: element.type,
               city: element.city,
               postCode: element.postCode,
-              location: element.location
+              location: element.location,
+              link: element.link
             })
           })
         })
@@ -300,6 +301,9 @@ export default {
           this.totalRows = this.list.length
         })
     }
+  },
+  mounted () {
+    this.getEvents()
   },
   created () {
     axios.interceptors.request.use(
