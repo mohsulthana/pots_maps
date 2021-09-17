@@ -41,7 +41,7 @@
           style="color: #660404; font-style: italic"
           v-if="list.length == [] && !filtered"
         >
-          Please select your region...
+          Please select your region.
         </h2>
         <b-tabs>
           <b-tab title="List View">
