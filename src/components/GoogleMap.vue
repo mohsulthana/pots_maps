@@ -80,7 +80,8 @@ export default {
             from: element.from,
             to: element.to,
             address: element.address,
-            city: element.city
+            city: element.city,
+            link: element.link
           })
         }
       })
@@ -110,7 +111,8 @@ export default {
               from: element.from,
               to: element.to,
               address: element.address,
-              city: element.city
+              city: element.city,
+              link: element.link
             })
           }
         })
@@ -130,6 +132,7 @@ export default {
                 <p class="font-weight-bold">${item.from} - ${item.to}</p>
                 <h6>${item.organizer}</h6>
                 <h6>${item.address} - ${item.city}</h6>
+                ${item.link == null || item.link === '' ? '' : '<a class="text-light font-weight-bold" target="_blank" href="' + item.link + '">' + item.link + '</a>'}
             </div>
           </div>
         </div>
