@@ -88,8 +88,6 @@ export default {
   },
   methods: {
     selectedRow (item) {
-      console.log(item)
-      console.log(this.selectedRegion)
       // https://points-of-tango.web.app/events/view?country=GBR&region=ENG_GLN&eventId=03072021_M3A288547
       if (item.length !== 0) {
         const a = document.createElement('a')
