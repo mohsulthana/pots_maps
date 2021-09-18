@@ -45,7 +45,7 @@
         </h2>
         <b-tabs>
           <b-tab title="List View">
-            <list :list="list" />
+            <list :list="list" :selectedRegion="selectedRegion" />
           </b-tab>
           <b-tab
             title="Map View"
@@ -158,6 +158,7 @@ export default {
 
             // logoUrl, name, from - to, city, address & postCode, type, associationName
             this.list.push({
+              id: element.id,
               logo: element.logoUrl,
               name: element.name,
               organizer: element.associationName,
@@ -249,6 +250,7 @@ export default {
 
             // logoUrl, name, from - to, city, address & postCode, type, associationName
             this.list.push({
+              id: element.id,
               logo: element.logoUrl,
               name: element.name,
               organizer: element.associationName,

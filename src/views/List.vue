@@ -1,15 +1,18 @@
 <template>
   <div class="list">
       <b-table
-        id="my-table"
+        ref="my-table"
         responsive
         striped
         hover
         show-empty
+        :select-mode="selectMode"
         :fields="fields"
         :items="list"
         :current-page="currentPage"
         :per-page="perPage"
+        selectable
+        @row-selected="selectedRow"
       >
         <template #cell(name)="data" class="text-left text-weight-bold">
           <h6 class="text-left">
@@ -28,6 +31,7 @@
               class="rounded-circle mr-3"
               alt="Event logo"
             />
+            <!-- https://points-of-tango.web.app/events/view?country=GBR&region=ENG_GLN&eventId=03072021_M3A288547 -->
             {{ data.item.name }}
           </h6>
         </template>
@@ -68,7 +72,8 @@
 <script>
 export default {
   props: {
-    list: Array
+    list: Array,
+    selectedRegion: String
   },
   data () {
     return {
@@ -77,7 +82,20 @@ export default {
       currentPage: 1,
       perPage: 25,
       fields: ['name', 'organizer', { key: 'date', label: 'Date', tdClass: 'dateColumn' }, 'address', 'type'],
-      isBusy: false
+      isBusy: false,
+      selectMode: 'single'
+    }
+  },
+  methods: {
+    selectedRow (item) {
+      console.log(item)
+      console.log(this.selectedRegion)
+      // https://points-of-tango.web.app/events/view?country=GBR&region=ENG_GLN&eventId=03072021_M3A288547
+      if (item.length !== 0) {
+        const a = document.createElement('a')
+        a.href = `https://points-of-tango.web.app/events/view?country=GBR&region=${this.selectedRegion}&eventId=${item[0].id}`
+        window.open(a)
+      }
     }
   },
   watch: {
