@@ -108,6 +108,12 @@ export default {
     }
   },
   methods: {
+    detectHttps (str) {
+      // check if there no http or https available or string is empty
+      if ((str.indexOf('http://') !== -1 || str.indexOf('https://') !== -1) || str.length === 0) {
+        return str
+      } else { return 'http://' + str }
+    },
     removeFilterState (bool) {
       this.filtered = bool
     },
@@ -197,7 +203,7 @@ export default {
               city: element.city,
               postCode: element.postCode,
               location: element.location,
-              link: element.link
+              link: this.detectHttps(element.link)
             })
           })
         })
@@ -289,7 +295,7 @@ export default {
               city: element.city,
               postCode: element.postCode,
               location: element.location,
-              link: element.link
+              link: this.detectHttps(element.link)
             })
           })
         })
