@@ -1,6 +1,7 @@
 <template>
 <div id="selection">
-  {{isMobile}}
+   <img src="@/assets/Logo-pot.png" alt="Pots Logo" class="tango-logo" height="70" />
+    <img src="@/assets/UKATA.png" alt="Tango Association" class="ukata-logo" height="70" />
   <b-container fluid="xl" class="my-5">
     <h1 class="text-white display-2">Tango</h1>
     <b-row class="my-3">
@@ -25,7 +26,7 @@
             </b-input-group-text>
           </b-input-group-append>
         </b-input-group>
-        <b-button variant="light"><b-icon-filter />Filter</b-button>
+        <b-button @click="applyFilter()" :disabled="!regionIsSelected" variant="light"><b-icon-filter />Filter</b-button>
       </b-col>
       <!-- <b-col cols="3">
         <b-form-datepicker reset-button :min="min" id="example-datepicker" v-model="dateFromFilter" class="mb-2 w-75"></b-form-datepicker>
@@ -64,6 +65,7 @@ export default {
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     return {
       min: today,
+      regionIsSelected: false,
       selectedRegion: '',
       isBusy: false,
       dropdownItems: [],
@@ -82,6 +84,20 @@ export default {
     }
   },
   methods: {
+    applyFilter () {
+      const type = this.typeSelectedFilter
+      const daterange = this.dateFromFilter
+      const city = this.cityFilter
+
+      const obj = {
+        cityFilter: city,
+        dateFromFilter: daterange,
+        typeSelectedFilter: type,
+        selectedRegion: this.selectedRegion
+      }
+
+      this.$emit('getEventsFilter', obj)
+    },
     capitalizeWord (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
@@ -127,6 +143,7 @@ export default {
   },
   watch: {
     selectedRegion: function (newValue, oldValue) {
+      this.regionIsSelected = true
       this.selectedRegion = newValue
       this.cityFilter = null
       this.dateFromFilter = null
