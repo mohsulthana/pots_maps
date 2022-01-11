@@ -21,11 +21,11 @@
           <multiselect :multiple="true" placeholder="Select Type" v-model="typeSelectedFilter" :options="options" />
         </b-col>
       </b-row>
-      <b-row class="my-3">
-        <b-col col xl="auto" sm="6" class="d-flex justify-content-center my-2">
+      <b-row class="my-2">
+        <b-col sm="12" md="6" class="d-flex justify-content-center my-2">
           <b-form-datepicker reset-button :min="min" placeholder="Select Date" id="example-datepicker" v-model="dateFromFilter" />
         </b-col>
-        <b-col col xl="auto" sm="6" class="d-flex justify-content-center my-2">
+        <b-col sm="12" md="6" class="d-flex justify-content-center my-2">
           <b-input-group>
             <b-form-input v-model="cityFilter" placeholder="Enter city"></b-form-input>
             <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
@@ -37,12 +37,12 @@
           </b-col>
       </b-row>
       <b-row class="my-3">
-        <b-col col lg="6" sm="auto" md="6" xl="auto" class="d-flex justify-content-center my-2">
+        <b-col lg="6" sm="6" md="6" xl="auto" class="d-flex justify-content-center my-2">
           <b-button style="width: 100%" @click="applyFilter()" :disabled="!regionIsSelected" variant="light">
             <b-icon-filter />Filter
           </b-button>
         </b-col>
-        <b-col col lg="6" sm="auto" md="6" xl="auto" class="d-flex justify-content-center my-2">
+        <b-col lg="6" sm="6" md="6" xl="auto" class="d-flex justify-content-center my-2">
           <b-button style="width: 100%" @click="clearFilter()" variant="light">
             Clear Filter
           </b-button>

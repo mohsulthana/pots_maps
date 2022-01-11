@@ -7,11 +7,9 @@
       {{ data.item.to }}
     </template>
     <template #cell(name)="data" class="text-left text-weight-bold">
-      <h6 class="text-left">
-        <img v-if="data.item.logo === undefined" src="@/assets/image.png" alt="Default Logo" height="80" class="mr-3" />
-        <img v-else :src="data.item.logo" height="80" class="rounded-circle mr-3" alt="Event logo" />
-        {{ data.item.name }}
-      </h6>
+      <h6 class="text-left" >
+        <img v-if="data.item.logo !== undefined" :src="data.item.logo" height="80" width="80" class="rounded-circle mr-3 img-fluid" style="" alt="Event logo" />
+        {{ data.item.name }}</h6>
     </template>
     <template #cell(organizer)="data">
       <p>{{ data.value }}</p>
