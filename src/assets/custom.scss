@@ -16,6 +16,20 @@ $secondary: #D1B4B4;
   padding: 5rem 0;
   margin-bottom: 1rem;
 
+  .is-mobile {
+    .container {
+      width: 80% !important;
+    }
+
+    hr {
+      &.separator {
+        background-color: white;
+        color: white;
+        border-top: 3px ​solid white !important;
+      }
+    }
+  }
+
   .tango-logo {
     position: absolute;
     left: 10px;

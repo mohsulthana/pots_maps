@@ -1,53 +1,87 @@
 <template>
 <div id="selection">
-   <img src="@/assets/Logo-pot.png" alt="Pots Logo" class="tango-logo" height="70" />
-    <img src="@/assets/UKATA.png" alt="Tango Association" class="ukata-logo" height="70" />
-  <b-container fluid="xl" class="my-5">
-    <h1 class="text-white display-2">Tango</h1>
-    <b-row class="my-3">
-      <b-col class="d-flex justify-content-center">
-        <b-form-select v-model="selectedRegion" class="w-25 mx-2">
-          <template #first>
-            <b-form-select-option value="" disabled>Select region</b-form-select-option>
-          </template>
-          <b-form-select-option :value="value.key" v-for="(value, index) in sortedRegion" :key="index">{{ value.text }}</b-form-select-option>
-        </b-form-select>
-      </b-col>
-    </b-row>
-    <b-row class="my-3">
-      <b-col class="d-flex justify-content-center">
-        <multiselect class="w-25 mx-2" :multiple="true" placeholder="Select Type" v-model="typeSelectedFilter" :options="options" />
-        <b-form-datepicker class="w-25 px-2" reset-button :min="min" placeholder="Select Date" id="example-datepicker" v-model="dateFromFilter" />
-        <b-input-group class="w-25 px-2">
-          <b-form-input v-model="cityFilter" placeholder="Enter city"></b-form-input>
-          <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
-            <b-input-group-text>
-              <b-icon-x />
-            </b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
-        <b-button @click="applyFilter()" :disabled="!regionIsSelected" variant="light"><b-icon-filter />Filter</b-button>
-      </b-col>
-      <!-- <b-col cols="3">
-        <b-form-datepicker reset-button :min="min" id="example-datepicker" v-model="dateFromFilter" class="mb-2 w-75"></b-form-datepicker>
-      </b-col>
-      <b-col cols="3">
-        <b-input-group class="w-75">
-          <b-form-input v-model="cityFilter" placeholder="Enter the city"></b-form-input>
-          <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
-            <b-input-group-text>
-              <b-icon-x />
-            </b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
-      </b-col>
-      <b-col cols="3">
-                <b-button variant="outline-danger" @click="clearFilter()" style="border: none !important;">
-          <b-icon-x />Clear filter
-        </b-button>
-      </b-col> -->
-    </b-row>
-  </b-container>
+  <img src="@/assets/Logo-pot.png" alt="Pots Logo" class="tango-logo" height="70" />
+  <img src="@/assets/UKATA.png" alt="Tango Association" class="ukata-logo" height="70" />
+  <h1 class="text-white display-2">Tango</h1>
+  <div class="is-mobile" v-if="isMobile">
+    <b-container>
+      <b-row class="my-2">
+        <b-col class="d-flex justify-content-center">
+          <b-form-select v-model="selectedRegion">
+            <template #first>
+              <b-form-select-option value="" disabled>Select region</b-form-select-option>
+            </template>
+            <b-form-select-option :value="value.key" v-for="(value, index) in sortedRegion" :key="index">{{ value.text }}</b-form-select-option>
+          </b-form-select>
+        </b-col>
+      </b-row>
+      <hr class="separator">
+      <b-row class="my-2">
+        <b-col col class="d-flex justify-content-center">
+          <multiselect :multiple="true" placeholder="Select Type" v-model="typeSelectedFilter" :options="options" />
+        </b-col>
+      </b-row>
+      <b-row class="my-3">
+        <b-col col xl="auto" sm="6" class="d-flex justify-content-center my-2">
+          <b-form-datepicker reset-button :min="min" placeholder="Select Date" id="example-datepicker" v-model="dateFromFilter" />
+        </b-col>
+        <b-col col xl="auto" sm="6" class="d-flex justify-content-center my-2">
+          <b-input-group>
+            <b-form-input v-model="cityFilter" placeholder="Enter city"></b-form-input>
+            <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
+              <b-input-group-text>
+                <b-icon-x />
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+          </b-col>
+      </b-row>
+      <b-row class="my-3">
+        <b-col col lg="6" sm="auto" md="6" xl="auto" class="d-flex justify-content-center my-2">
+          <b-button style="width: 100%" @click="applyFilter()" :disabled="!regionIsSelected" variant="light">
+            <b-icon-filter />Filter
+          </b-button>
+        </b-col>
+        <b-col col lg="6" sm="auto" md="6" xl="auto" class="d-flex justify-content-center my-2">
+          <b-button style="width: 100%" @click="clearFilter()" variant="light">
+            Clear Filter
+          </b-button>
+        </b-col>
+      </b-row>
+    <hr class="separator">
+    </b-container>
+  </div>
+  <div class="is-tablet" v-else>
+    <b-container fluid="xl" class="my-5">
+      <b-row class="my-3">
+        <b-col class="d-flex justify-content-center">
+          <b-form-select v-model="selectedRegion" class="w-25 mx-2">
+            <template #first>
+              <b-form-select-option value="" disabled>Select region</b-form-select-option>
+            </template>
+            <b-form-select-option :value="value.key" v-for="(value, index) in sortedRegion" :key="index">{{ value.text }}</b-form-select-option>
+          </b-form-select>
+        </b-col>
+      </b-row>
+      <b-row class="my-3">
+        <b-col class="d-flex justify-content-center">
+          <multiselect class="w-25 mx-2" :multiple="true" placeholder="Select Type" v-model="typeSelectedFilter" :options="options" />
+          <b-form-datepicker class="w-25 px-2" reset-button :min="min" placeholder="Select Date" id="example-datepicker" v-model="dateFromFilter" />
+          <b-input-group class="w-25 px-2">
+            <b-form-input v-model="cityFilter" placeholder="Enter city"></b-form-input>
+            <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
+              <b-input-group-text>
+                <b-icon-x />
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+          <b-button @click="applyFilter()" :disabled="!regionIsSelected" variant="light">
+            <b-icon-filter />Filter
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </div>
 </template>
 
@@ -58,6 +92,7 @@ import axios from '@/axios'
 export default {
   props: {
     isMobile: Boolean,
+    isTablet: Boolean,
     filtered: Boolean
   },
   data () {

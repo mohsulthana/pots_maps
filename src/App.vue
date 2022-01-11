@@ -51,8 +51,8 @@ export default {
       list: [],
       tabActive: false,
       filtered: false,
-      isMobile: window.innerWidth < 1024,
-      isTablet: window.innerWidth > 1023 && window.innerWidth < 1201
+      isMobile: false,
+      isTablet: false
     }
   },
   components: {
@@ -61,6 +61,17 @@ export default {
     GoogleMapView
   },
   methods: {
+    resizeWindow () {
+      if (window.innerWidth < 1024) {
+        this.isMobile = true
+        this.isTablet = false
+      } else if (window.innerWidth > 1023 && window.innerWidth < 1201) {
+        this.isTablet = true
+        this.isMobile = false
+      } else {
+        this.isTablet = true
+      }
+    },
     removeFilterState (bool) {
       this.filtered = bool
     },
@@ -253,6 +264,10 @@ export default {
         })
     }
   },
+  mounted () {
+    this.resizeWindow()
+    window.addEventListener('resize', this.resizeWindow)
+  },
   created () {
     axios.interceptors.request.use(
       (successfulReq) => {
@@ -275,6 +290,9 @@ export default {
         Promise.reject(error)
       }
     )
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.resizeWindow)
   }
 }
 </script>
