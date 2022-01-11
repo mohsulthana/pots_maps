@@ -1,82 +1,53 @@
 <template>
-  <div id="selection">
-    <b-container fluid class="my-5">
-      <b-row>
-        <b-col cols="2">
-          <b-input-group>
-            <b-form-select v-model="selectedRegion">
-              <template #first>
-                <b-form-select-option value="" disabled
-                  >Select region</b-form-select-option
-                >
-              </template>
-              <b-form-select-option
-                :value="value.key"
-                v-for="(value, index) in sortedRegion"
-                :key="index"
-                >{{ value.text }}</b-form-select-option
-              >
-            </b-form-select>
-          </b-input-group>
-        </b-col>
-        <b-col cols="3" offset-lg="1">
-          <multiselect
-            :multiple="true"
-            placeholder="Select Type"
-            v-model="typeSelectedFilter"
-            :options="options"
-          >
-          </multiselect>
-        </b-col>
-        <b-col cols="3">
-          <b-form-datepicker
-            reset-button
-            :min="min"
-            id="example-datepicker"
-            v-model="dateFromFilter"
-            class="mb-2"
-          ></b-form-datepicker>
-        </b-col>
-        <b-col cols="2">
-          <b-input-group>
-            <b-form-input
-              v-model="cityFilter"
-              placeholder="Enter the city"
-            ></b-form-input>
-            <b-input-group-append
-              @click="clearCityFilter"
-              style="cursor: pointer"
-            >
-              <b-input-group-text>
-                <b-icon-x />
-              </b-input-group-text>
-            </b-input-group-append>
-          </b-input-group>
-        </b-col>
-        <b-col>
-          <b-button
-            :disabled="selectedRegion.length < 1"
-            @click="$emit('getEventsFilter', {cityFilter, typeSelectedFilter, dateFromFilter, selectedRegion})"
-            variant="danger"
-            >Filter</b-button
-          >
-        </b-col>
-      </b-row>
-      <b-row align-h="end">
-        <b-col>
-          <b-button
-            variant="outline-danger"
-            @click="clearFilter()"
-            v-if="filtered"
-            style="float: right;"
-            >
-            <b-icon-x />Clear filter
-            </b-button
-          >
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+<div id="selection">
+  {{isMobile}}
+  <b-container fluid="xl" class="my-5">
+    <h1 class="text-white display-2">Tango</h1>
+    <b-row class="my-3">
+      <b-col class="d-flex justify-content-center">
+        <b-form-select v-model="selectedRegion" class="w-25 mx-2">
+          <template #first>
+            <b-form-select-option value="" disabled>Select region</b-form-select-option>
+          </template>
+          <b-form-select-option :value="value.key" v-for="(value, index) in sortedRegion" :key="index">{{ value.text }}</b-form-select-option>
+        </b-form-select>
+      </b-col>
+    </b-row>
+    <b-row class="my-3">
+      <b-col class="d-flex justify-content-center">
+        <multiselect class="w-25 mx-2" :multiple="true" placeholder="Select Type" v-model="typeSelectedFilter" :options="options" />
+        <b-form-datepicker class="w-25 px-2" reset-button :min="min" placeholder="Select Date" id="example-datepicker" v-model="dateFromFilter" />
+        <b-input-group class="w-25 px-2">
+          <b-form-input v-model="cityFilter" placeholder="Enter city"></b-form-input>
+          <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
+            <b-input-group-text>
+              <b-icon-x />
+            </b-input-group-text>
+          </b-input-group-append>
+        </b-input-group>
+        <b-button variant="light"><b-icon-filter />Filter</b-button>
+      </b-col>
+      <!-- <b-col cols="3">
+        <b-form-datepicker reset-button :min="min" id="example-datepicker" v-model="dateFromFilter" class="mb-2 w-75"></b-form-datepicker>
+      </b-col>
+      <b-col cols="3">
+        <b-input-group class="w-75">
+          <b-form-input v-model="cityFilter" placeholder="Enter the city"></b-form-input>
+          <b-input-group-append @click="clearCityFilter" style="cursor: pointer">
+            <b-input-group-text>
+              <b-icon-x />
+            </b-input-group-text>
+          </b-input-group-append>
+        </b-input-group>
+      </b-col>
+      <b-col cols="3">
+                <b-button variant="outline-danger" @click="clearFilter()" style="border: none !important;">
+          <b-icon-x />Clear filter
+        </b-button>
+      </b-col> -->
+    </b-row>
+  </b-container>
+</div>
 </template>
 
 <script>
@@ -85,6 +56,7 @@ import axios from '@/axios'
 
 export default {
   props: {
+    isMobile: Boolean,
     filtered: Boolean
   },
   data () {
@@ -175,3 +147,5 @@ export default {
   }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

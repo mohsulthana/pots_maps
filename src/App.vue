@@ -1,16 +1,17 @@
 <template>
   <div id="app">
     <b-overlay :show="isLoading" no-wrap></b-overlay>
-    <b-navbar variant="faded" type="light">
+    <!-- <b-navbar variant="faded" type="light">
       <b-navbar-brand href="https://pointsoftango.com" target="_blank">
         <img src="@/assets/Logo-pot.png" alt="Pots Logo" height="70" />
       </b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <img src="@/assets/UKATA.png" alt="Tango Association" height="70" />
       </b-navbar-nav>
-    </b-navbar>
+    </b-navbar> -->
     <div id="body">
       <data-selection
+        :isMobile="isMobile"
         @getEvents="getEvents"
         @getEventsFilter="getEventsFilter"
         @removeFilterState="removeFilterState"
@@ -49,7 +50,9 @@ export default {
       isLoading: false,
       list: [],
       tabActive: false,
-      filtered: false
+      filtered: false,
+      isMobile: window.innerWidth < 1024,
+      isTablet: window.innerWidth > 1023 && window.innerWidth < 1201
     }
   },
   components: {
@@ -117,7 +120,7 @@ export default {
               )} at ${new Date(timestampStarted).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: false
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
                 'en-US',
@@ -125,7 +128,7 @@ export default {
               )} at ${new Date(timestampEnded).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: false
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
                 'en-US',
@@ -167,7 +170,6 @@ export default {
       axios
         .get(`events/ukata/GBR/${region}/1`)
         .then((response) => {
-          console.log(response)
           const dateFormatOptions = {
             month: '2-digit',
             day: '2-digit'
@@ -208,7 +210,7 @@ export default {
               )} at ${new Date(timestampStarted).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: false
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
                 'en-US',
@@ -216,7 +218,7 @@ export default {
               )} at ${new Date(timestampEnded).toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour12: true
+                hour12: false
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
                 'en-US',
@@ -278,9 +280,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&family=Ubuntu:wght@700&display=swap');
 @import "assets/custom.scss";
+
 #app {
-  font-family: Verdana, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
