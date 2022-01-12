@@ -14,6 +14,7 @@
         :isMobile="isMobile"
         @getEvents="getEvents"
         @getEventsFilter="getEventsFilter"
+        @updateRegion="updateRegion"
         @removeFilterState="removeFilterState"
         :filtered="filtered"
       />
@@ -23,7 +24,7 @@
         </h2>
         <b-tabs>
           <b-tab title="List View">
-            <list :list="list" />
+            <list :list="list" :selectedRegion="region"/>
           </b-tab>
           <b-tab
             title="Map View"
@@ -52,7 +53,8 @@ export default {
       tabActive: false,
       filtered: false,
       isMobile: false,
-      isTablet: false
+      isTablet: false,
+      region: null
     }
   },
   components: {
@@ -61,6 +63,9 @@ export default {
     GoogleMapView
   },
   methods: {
+    updateRegion (args) {
+      this.region = args
+    },
     resizeWindow () {
       if (window.innerWidth < 1024) {
         this.isMobile = true
@@ -122,6 +127,9 @@ export default {
 
             // logoUrl, name, from - to, city, address & postCode, type, associationName
             this.list.push({
+              id: element.id,
+              country: element.country,
+              cancelled: element.cancelled,
               logo: element.logoUrl,
               name: element.name,
               organizer: element.associationName,
@@ -212,6 +220,9 @@ export default {
 
             // logoUrl, name, from - to, city, address & postCode, type, associationName
             this.list.push({
+              id: element.id,
+              cancelled: element.cancelled,
+              country: element.country,
               logo: element.logoUrl,
               name: element.name,
               organizer: element.associationName,

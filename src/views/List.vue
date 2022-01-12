@@ -1,6 +1,6 @@
 <template>
 <div id="list">
-  <b-table id="my-table" responsive="sm" striped hover show-empty :fields="fields" :items="list" :current-page="currentPage" :per-page="perPage">
+  <b-table id="my-table" @row-clicked="viewEvents" responsive="md" striped hover show-empty :fields="fields" :items="list" :current-page="currentPage" :per-page="perPage">
     <template #cell(date)="data">
       {{ data.item.from }} <br />
       <span class="date">  To  </span> <br />
@@ -9,7 +9,7 @@
     <template #cell(name)="data" class="text-left text-weight-bold">
       <h6 class="text-left" >
         <img v-if="data.item.logo !== undefined" :src="data.item.logo" height="80" width="80" class="rounded-circle mr-3 img-fluid" style="" alt="Event logo" />
-        {{ data.item.name }}</h6>
+        {{ data.item.name }} <span class="cancelled text-muted" v-if="data.item.cancelled">Cancelled</span></h6>
     </template>
     <template #cell(organizer)="data">
       <p>{{ data.value }}</p>
@@ -36,7 +36,8 @@
 <script>
 export default {
   props: {
-    list: Array
+    list: Array,
+    selectedRegion: String
   },
   data () {
     return {
@@ -55,6 +56,11 @@ export default {
   },
   mounted () {
     this.$root.$on('bv::dropdown::show', (bvEvent) => {})
+  },
+  methods: {
+    viewEvents (args) {
+      window.open(`https://points-of-tango.web.app/events/view?country=${args.country}&region=${this.selectedRegion}&eventId=${args.id}`, '_blank')
+    }
   }
 }
 </script>

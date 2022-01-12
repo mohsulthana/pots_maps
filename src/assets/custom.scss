@@ -13,7 +13,7 @@ $secondary: #D1B4B4;
   background-size: cover;
   background-position-y: center;
   object-fit: cover;
-  padding: 5rem 0;
+  padding: 3rem 0;
   margin-bottom: 1rem;
 
   .is-mobile {
@@ -156,6 +156,9 @@ $secondary: #D1B4B4;
         }
 
         tr {
+          &:hover {
+            cursor: pointer;
+          }
           td {
             border-right: 1px solid rgba(102, 4, 4, 0.3) !important;
             top: 35%;

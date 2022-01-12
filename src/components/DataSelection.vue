@@ -178,6 +178,7 @@ export default {
   },
   watch: {
     selectedRegion: function (newValue, oldValue) {
+      this.$emit('updateRegion', newValue)
       this.regionIsSelected = true
       this.selectedRegion = newValue
       this.cityFilter = null
