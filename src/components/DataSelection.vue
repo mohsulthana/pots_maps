@@ -2,7 +2,7 @@
 <div id="selection">
   <img src="@/assets/Logo-pot.png" alt="Pots Logo" class="tango-logo" height="70" />
   <img src="@/assets/UKATA.png" alt="Tango Association" class="ukata-logo" height="70" />
-  <h1 class="text-white display-2">Tango</h1>
+  <h1 class="display-3" style="color: rgba(102, 4, 4, 0.9) !important;">UK Tango Map</h1>
   <div class="is-mobile" v-if="isMobile">
     <b-container>
       <b-row class="my-2">

@@ -126,31 +126,31 @@ export default {
               name: element.name,
               organizer: element.associationName,
               from: `${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: false
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: false
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric'
               })} - To: ${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
@@ -216,31 +216,31 @@ export default {
               name: element.name,
               organizer: element.associationName,
               from: `${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: false
               })}`,
               to: `${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: false
               })}`,
               date: `From: ${new Date(timestampStarted).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampStarted).toLocaleString('en-US', {
+              )} at ${new Date(timestampStarted).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric'
               })} - To: ${new Date(timestampEnded).toLocaleString(
-                'en-US',
+                'en-GB',
                 dateFormatOptions
-              )} at ${new Date(timestampEnded).toLocaleString('en-US', {
+              )} at ${new Date(timestampEnded).toLocaleString('en-GB', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
