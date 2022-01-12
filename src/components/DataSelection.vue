@@ -75,8 +75,11 @@
               </b-input-group-text>
             </b-input-group-append>
           </b-input-group>
-          <b-button @click="applyFilter()" :disabled="!regionIsSelected" variant="light">
+          <b-button @click="applyFilter()" :disabled="!regionIsSelected" variant="light" class="mx-2">
             <b-icon-filter />Filter
+          </b-button>
+          <b-button @click="clearFilter()" :disabled="!regionIsSelected" variant="light" class="mx-2">
+            Clear Filter
           </b-button>
         </b-col>
       </b-row>
