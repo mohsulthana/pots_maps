@@ -71,6 +71,7 @@ export default {
             lat: element.location.latitude,
             lng: element.location.longitude,
             name: element.name,
+            cancelled: element.cancelled,
             type: element.type,
             logo: element.logo,
             organizer: element.organizer,
@@ -98,6 +99,7 @@ export default {
               lat: element.location.latitude,
               lng: element.location.longitude,
               name: element.name,
+              cancelled: element.cancelled,
               type: element.type,
               logo: element.logo,
               organizer: element.organizer,
@@ -116,6 +118,7 @@ export default {
         //       lat: latitude,
         //       lng: longitude,
         //       name: element.name,
+        //       cancelled: element.cancelled,
         //       type: element.type,
         //       logo: element.logo,
         //       organizer: element.organizer,
@@ -137,7 +140,7 @@ export default {
               ${item.logo === undefined ? '<div/>' : `<img src=${item.logo} width="80" height="80" class="rounded-circle">`}
             </div>
             <div style="float: left;">
-                <h4>${item.name}</h4>
+                <h4 ${item.cancelled === false ? '' : 'class="cancelled text-muted"'}>${item.name}${item.cancelled === false ? '' : ' - CANCELLED'}</h4>
                 <p class="font-weight-bold"> ${item.type}</p>
                 <p class="font-weight-bold">${item.from} - ${item.to}</p>
                 <h6>${item.organizer}</h6>

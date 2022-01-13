@@ -7,9 +7,12 @@
       {{ data.item.to }}
     </template>
     <template #cell(name)="data" class="text-left text-weight-bold">
-      <h6 class="text-left" >
+      <h6 class="text-left cancelled text-muted" v-if="data.item.cancelled">
         <img v-if="data.item.logo !== undefined" :src="data.item.logo" height="80" width="80" class="rounded-circle mr-3 img-fluid" style="" alt="Event logo" />
-        {{ data.item.name }} <span class="cancelled text-muted" v-if="data.item.cancelled">Cancelled</span></h6>
+        {{ data.item.name }} <span class="cancelled text-muted" v-if="data.item.cancelled"> - CANCELLED</span></h6>
+      <h6 class="text-left" v-if="!data.item.cancelled">
+        <img v-if="data.item.logo !== undefined" :src="data.item.logo" height="80" width="80" class="rounded-circle mr-3 img-fluid" style="" alt="Event logo" />
+        {{ data.item.name }}</h6>
     </template>
     <template #cell(organizer)="data">
       <p>{{ data.value }}</p>
