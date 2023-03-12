@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="map">
     <GmapMap
       ref="mapRef"
       :center="center"
-      :zoom="12"
+      :zoom="11"
       id="mapId"
-      style="width: 100%; height: 600px"
+      style="width: 100%; height: 500px"
     >
       <gmap-marker
         :key="index"
@@ -71,6 +71,7 @@ export default {
             lat: element.location.latitude,
             lng: element.location.longitude,
             name: element.name,
+            cancelled: element.cancelled,
             type: element.type,
             logo: element.logo,
             organizer: element.organizer,
@@ -98,6 +99,7 @@ export default {
               lat: element.location.latitude,
               lng: element.location.longitude,
               name: element.name,
+              cancelled: element.cancelled,
               type: element.type,
               logo: element.logo,
               organizer: element.organizer,
@@ -116,6 +118,7 @@ export default {
         //       lat: latitude,
         //       lng: longitude,
         //       name: element.name,
+        //       cancelled: element.cancelled,
         //       type: element.type,
         //       logo: element.logo,
         //       organizer: element.organizer,
@@ -130,15 +133,14 @@ export default {
       })
     },
     toggleInfoWindow (item, index) {
-      const defaultImage = require('../assets/image.png')
       this.infoOptions.content = `
         <div class="card">
           <div class="card-body">
             <div style="float: left;">
-              ${item.logo === undefined ? `<img src="${defaultImage}" alt="Default Logo" height="80" class="mr-3">` : `<img src=${item.logo} height="80" class="rounded-circle">`}
+              ${item.logo === undefined ? '<div/>' : `<img src=${item.logo} width="80" height="80" class="rounded-circle">`}
             </div>
             <div style="float: left;">
-                <h4>${item.name}</h4>
+                <h4 ${item.cancelled === false ? '' : 'class="cancelled text-muted"'}>${item.name}${item.cancelled === false ? '' : ' - CANCELLED'}</h4>
                 <p class="font-weight-bold"> ${item.type}</p>
                 <p class="font-weight-bold">${item.from} - ${item.to}</p>
                 <h6>${item.organizer}</h6>
