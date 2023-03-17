@@ -14,7 +14,11 @@ Vue.use(BootstrapVue)
 Vue.component('BIconFunnel', BIconFunnel)
 Vue.component('BIconX', BIconX)
 Vue.component('BIconFilter', BIconFilter)
+
 Vue.prototype.$axios = axios
+Vue.prototype.$isMobile = false
+Vue.prototype.$isTablet = false
+Vue.prototype.$isDesktop = false
 
 Vue.config.productionTip = false
 

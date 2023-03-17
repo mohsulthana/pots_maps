@@ -1,25 +1,25 @@
 <template>
   <div id="map">
     <GmapMap
+      id="mapId"
       ref="mapRef"
       :center="center"
-      :zoom="11"
-      id="mapId"
+      :zoom="zoomLevel"
       style="width: 100%; height: 500px"
     >
       <gmap-marker
-        :key="index"
         v-for="(m, index) in markers"
+        :key="index"
+        ref="marker"
         :position="m"
         :clickable="true"
-        ref="marker"
         @click="toggleInfoWindow(m, index)"
-      ></gmap-marker>
+      />
       <gmap-info-window
+        ref="infoWindow"
         :options="infoOptions"
         :position="infoWindowPos"
         :opened="infoWindowOpen"
-        ref="infoWindow"
         @closeclick="infoWindowOpen = false"
       />
     </GmapMap>
@@ -30,9 +30,13 @@
 export default {
   name: 'GoogleMap',
   props: {
-    events: Array
+    location: {
+      required: true,
+      type: Array,
+      default: () => []
+    }
   },
-  data () {
+  data() {
     return {
       organizer: '',
       infoOptions: {
@@ -48,20 +52,21 @@ export default {
       center: { lat: 51.5060031, lng: -0.1003099 },
       markers: [],
       address: [],
-      currentPlace: null
+      currentPlace: null,
+      zoomLevel: 11
     }
   },
   watch: {
-    events: function (newVal, oldVal) {
+    location: function (newVal, oldVal) {
       this.markers = []
       this.populateMap()
     }
   },
-  mounted () {
+  mounted() {
     this.$refs.mapRef.$mapPromise.then((map) => {
       this.markers = []
-      this.events.forEach((element) => {
-        if (element.location !== undefined) {
+      this.location.forEach((element) => {
+        if (element.location !== undefined && element.section === "Events") {
           map.panTo({
             lat: element.location.latitude,
             lng: element.location.longitude
@@ -81,17 +86,37 @@ export default {
             from: element.from,
             to: element.to,
             address: element.address,
-            city: element.city
+            city: element.city,
+            section: element.section
+          })
+        } else if (element.location !== undefined && element.section === "Teachers") {
+          map.panTo({
+            lat: element.location.latitude,
+            lng: element.location.longitude
+          })
+          this.center = {
+            lat: element.location.latitude,
+            lng: element.location.longitude
+          }
+          this.markers.push({
+            lat: element.location.latitude,
+            lng: element.location.longitude,
+            name: element.name,
+            picture: element.picture,
+            city: element.city,
+            postcode: element.postcode,
+            section: element.section,
+            contact: element.contact
           })
         }
       })
     })
   },
   methods: {
-    populateMap () {
+    populateMap() {
       this.$refs.mapRef.$mapPromise.then((map) => {
         this.markers = []
-        this.events.forEach((element) => {
+        this.location.forEach((element) => {
           if (element.location !== undefined) {
             map.panTo({
               lat: element.location.latitude,
@@ -118,11 +143,18 @@ export default {
         })
       })
     },
-    toggleInfoWindow (item, index) {
-      this.infoOptions.content = `
+    toggleInfoWindow(item, index) {
+      this.zoomLevel = 13
+      this.center = {
+        lat: item.lat,
+        lng: item.lng
+      }
+
+      if (item.section === 'Events') {
+        this.infoOptions.content = `
         <div class="card border-0 pr-4">
           <div class="card-body">
-            <div style="float: left;">
+            <div style="float: left;" class="mr-3">
               ${item.logo === undefined ? '<div/>' : `<img src=${item.logo} width="80" height="80" class="rounded-circle">`}
             </div>
             <div style="float: left;">
@@ -135,6 +167,24 @@ export default {
           </div>
         </div>
       `
+      } else {
+        this.infoOptions.content = `
+        <div class="card border-0 pr-4">
+          <div class="card-body">
+            <div style="float: left;" class="mr-3">
+              ${item.picture === undefined ? '<div/>' : `<img src=${item.picture} width="80" height="80" class="rounded-circle">`}
+            </div>
+            <div style="float: left;">
+                <h6 class="font-weight-bold"> ${item.name}</h6>
+                <p class="font-weight-bold"> <a target="_blank" style="color: white; text-decoration:underline" href="mailto:${item.contact.email}">${item.contact.email}</a></p>
+                <p> ${item.contact.phone === undefined ? '' : item.contact.phone}</p>
+                <p> ${item.postcode}</p>
+            </div>
+          </div>
+        </div>
+      `
+      }
+
       this.infoWindowPos = item
       this.infoWindowOpen = true
 
@@ -150,7 +200,7 @@ export default {
         this.currentMidx = index
       }
     },
-    setPlace (place) {
+    setPlace(place) {
       this.currentPlace = place
     },
     geolocate: function () {
@@ -172,9 +222,11 @@ export default {
   background-color: #660404 !important;
   color: white;
 }
+
 .card {
   border: none !important;
 }
+
 .gm-style-iw-t {
   right: 0px;
   bottom: 55px !important;

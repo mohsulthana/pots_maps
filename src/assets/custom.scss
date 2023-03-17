@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -35,6 +36,7 @@ $secondary: #D1B4B4;
     left: 10px;
     top: 10px;
   }
+
   .ukata-logo {
     position: absolute;
     right: 10px;
@@ -83,6 +85,7 @@ $secondary: #D1B4B4;
           background-color: blue;
         }
       }
+
       .multiselect__placeholder {
         color: white;
         font-size: 1rem;
@@ -138,15 +141,16 @@ $secondary: #D1B4B4;
   }
 }
 
-#list {
+#events-list {
   table {
-    border-collapse:separate !important;
+    border-collapse: separate !important;
     border-spacing: 0 5px !important;
 
     &.table-striped {
       tbody {
         span {
           &.date {
+
             &::before,
             &::after {
               content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
@@ -159,6 +163,7 @@ $secondary: #D1B4B4;
           &:hover {
             cursor: pointer;
           }
+
           td {
             border-right: 1px solid rgba(102, 4, 4, 0.3) !important;
             top: 35%;
@@ -197,7 +202,7 @@ $secondary: #D1B4B4;
     th {
       color: $primary !important;
       font-size: 24px;
-      vertical-align: middle !important;
+      text-align: center;
     }
 
     tr {
@@ -208,6 +213,119 @@ $secondary: #D1B4B4;
         &:nth-child(4) {
           text-align: left;
         }
+      }
+    }
+  }
+
+  ul[role="menubar"] {
+    padding: .5rem 0;
+    border-top: 1px solid $primary !important;
+    border-bottom: 1px solid $primary !important;
+    border-radius: unset !important;
+
+    li {
+      &.flex-fill {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      [role="menuitem"],
+      [role="menuitemradio"] {
+        border-radius: 50%;
+        background-color: $primary;
+        color: white;
+        height: 2em;
+        width: 2em;
+        font-size: 1.1rem;
+        line-height: 2em;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex-grow: unset !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      button[aria-checked="true"] {
+        border-radius: 50%;
+        height: 2em;
+        width: 2em;
+        background-color: $secondary;
+        border: none;
+        color: $primary;
+      }
+
+      button[aria-checked="false"] {
+        height: 50px;
+        width: 50px;
+        color: rgba(102, 4, 4, 0.3);
+        background-color: white !important;
+        border: none;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}
+
+#teachers-list {
+  table {
+    border-collapse: separate !important;
+    border-spacing: 0 5px !important;
+
+    &.table-striped {
+      tbody {
+        span {
+          &.date {
+
+            &::before,
+            &::after {
+              content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+              text-decoration: line-through;
+            }
+          }
+        }
+
+        tr {
+          &:hover {
+            cursor: pointer;
+          }
+
+          td {
+            border-right: 1px solid rgba(102, 4, 4, 0.3) !important;
+            top: 35%;
+          }
+
+          &:not(.b-table-empty-row) td:nth-child(1) {
+            background-color: $primary !important;
+            color: white !important;
+            width: 234px;
+            font-size: 20px;
+          }
+
+          &:nth-of-type(odd) {
+            background-color: rgba(102, 4, 4, 0.09) !important;
+            color: #660404;
+          }
+
+          &:nth-of-type(even) {
+            background-color: rgba(209, 179, 179, 1) !important;
+            color: #660404;
+          }
+        }
+      }
+    }
+
+    th {
+      color: $primary !important;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    tr {
+      td {
+        vertical-align: middle !important;
+        text-align: center;
       }
     }
   }
@@ -275,6 +393,7 @@ $secondary: #D1B4B4;
     }
   }
 }
+
 input[type="text"],
 input[type="text"].multiselect__input,
 input[type="text"].multiselect__input::placeholder {
