@@ -1,6 +1,5 @@
 <template>
   <div id="selection">
-    {{ $isMobile }}
     <h1
       class="display-3 text-center"
       style="color: rgba(102, 4, 4, 0.9) !important"
@@ -128,10 +127,9 @@
       >
         <b-row class="my-3">
           <b-col class="d-flex justify-content-center">
-            {{ selectionClass }}
             <b-form-select
               v-model="selectedRegion"
-              :class="selectionClass"
+              :class="isMobile ? 'w-100': 'w-25'"
               class="mx-2"
             >
               <template #first>
@@ -214,7 +212,7 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     const now = new Date()
     const today = new Date(
       now.getFullYear(),
@@ -223,6 +221,8 @@ export default {
     )
     return {
       min: today,
+      isMobile: false,
+      isTablet: false,
       regionIsSelected: false,
       selectedRegion: '',
       isBusy: false,
@@ -257,17 +257,8 @@ export default {
       ]
     }
   },
-  computed: {
-    selectionClass() {
-      console.log(this.$isMobile)
-      return this.$isMobile ? 'w-100' : 'w-25'
-    }
-  },
   watch: {
-    '$isMobile'(newValue) {
-      console.log(newValue)
-    },
-    '$route'(to, from) {
+    '$route' (to, from) {
       this.selectedRegion = ''
     },
     selectedRegion: function (newValue, oldValue) {
@@ -293,7 +284,7 @@ export default {
     }
   },
   methods: {
-    applyFilter() {
+    applyFilter () {
       const type = this.typeSelectedFilter
       const daterange = this.dateFromFilter
       const city = this.cityFilter
@@ -307,19 +298,36 @@ export default {
 
       this.$emit('getEventsFilter', obj)
     },
-    capitalizeWord(string) {
+    capitalizeWord (string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
-    clearFilter() {
+    clearFilter () {
       this.cityFilter = null
       this.dateFromFilter = null
       this.typeSelectedFilter = null
       this.$emit('getEvents')
       this.$emit('removeFilterState', false)
     },
-    clearCityFilter() {
+    clearCityFilter () {
       this.cityFilter = null
+    },
+    resizeWindow () {
+      if (window.innerWidth < 1024) {
+        this.isMobile = true
+        this.isTablet = false
+      } else if (window.innerWidth > 1023 && window.innerWidth < 1201) {
+        this.isTablet = true
+        this.isMobile = false
+      } else {
+        this.isTablet = true
+      }
     }
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.resizeWindow)
+  },
+  mounted () {
+    window.addEventListener('resize', this.resizeWindow)
   }
 }
 </script>
