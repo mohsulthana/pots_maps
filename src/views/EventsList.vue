@@ -139,26 +139,26 @@ export default {
     events: {
       type: Array,
       required: true,
-      default: () => [],
+      default: () => []
     },
     selectedRegion: {
       type: String,
       default: null
-    },
+    }
   },
-  data() {
+  data () {
     return {
       tabActive: false,
       totalRows: 1,
       currentPage: 1,
       perPage: 25,
-      fields: ["date", "name", "organizer", "address", "type"],
+      fields: ['date', 'name', 'organizer', 'address', 'type'],
       isBusy: false,
-      searchKeyword: "",
-    };
+      searchKeyword: ''
+    }
   },
   computed: {
-    eventList() {
+    eventList () {
       return this.events.filter(
         (item) =>
           !this.searchKeyword ||
@@ -171,24 +171,24 @@ export default {
           item.address
             .toLowerCase()
             .includes(this.searchKeyword.toLowerCase())
-      );
-    },
+      )
+    }
   },
   watch: {
     events: function (newVal, oldVal) {
-      this.totalRows = this.events.length;
-    },
+      this.totalRows = this.events.length
+    }
   },
-  mounted() {
-    this.$root.$on("bv::dropdown::show", (bvEvent) => { });
+  mounted () {
+    this.$root.$on('bv::dropdown::show', (bvEvent) => { })
   },
   methods: {
-    viewEvents(args) {
+    viewEvents (args) {
       window.open(
         `https://points-of-tango.web.app/events/view?country=${args.country}&region=${this.selectedRegion}&eventId=${args.id}`,
-        "_blank"
-      );
-    },
-  },
-};
+        '_blank'
+      )
+    }
+  }
+}
 </script>
