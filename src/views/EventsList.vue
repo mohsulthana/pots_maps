@@ -97,9 +97,19 @@
             <p>{{ data.value }}</p>
           </template>
           <template #cell(address)="data">
-            <p>{{ data.item.address }}</p>
-            <p>{{ data.item.postCode }}</p>
-            <p>{{ data.item.city }}</p>
+            <p>
+              <span>
+                {{ data.item.address }}
+              </span>
+              <br>
+              <span>
+                {{ data.item.postCode }}
+              </span>
+              <br>
+              <span>
+                <p>{{ data.item.city }}</p>
+              </span>
+            </p>
           </template>
           <template #cell(type)="data">
             {{ data.item.type }}
